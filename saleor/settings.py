@@ -84,18 +84,22 @@ DATABASE_CONNECTION_DEFAULT_NAME = "default"
 # This variable should be set to `replica`
 DATABASE_CONNECTION_REPLICA_NAME = "default"
 
-DATABASES = {
-    DATABASE_CONNECTION_DEFAULT_NAME: dj_database_url.config(
-        default="postgres://saleor:saleor@localhost:5432/saleor",
-        conn_max_age=DB_CONN_MAX_AGE,
-    ),
-    # TODO: We need to add read only user to saleor platfrom, and we need to update
-    # docs.
-    # DATABASE_CONNECTION_REPLICA_NAME: dj_database_url.config(
-    #     default="postgres://saleor_read_only:saleor@localhost:5432/saleor",
-    #     conn_max_age=DB_CONN_MAX_AGE,
-    # ),
-}
+DATABASES = {'default': {'ATOMIC_REQUESTS': False,
+                         'AUTOCOMMIT': True,
+                         'CONN_MAX_AGE': 600,
+                         'ENGINE': 'django.db.backends.postgresql',
+                         'HOST': 'saleor-369111:us-central1:saleor-db',
+                         'NAME': 'saleor',
+                         'OPTIONS': {},
+                         'PASSWORD': os.environ.get("DB_PASSWORD"),
+                         'PORT': 6543,
+                         'TEST': {'CHARSET': None,
+                                  'COLLATION': None,
+                                  'MIGRATE': True,
+                                  'MIRROR': None,
+                                  'NAME': None},
+                         'TIME_ZONE': None,
+                         'USER': 'postgres'}}
 
 DATABASE_ROUTERS = ["saleor.core.db_routers.PrimaryReplicaRouter"]
 
