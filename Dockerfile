@@ -47,8 +47,6 @@ WORKDIR /app
 
 ARG STATIC_URL
 ENV STATIC_URL ${STATIC_URL:-/static/}
-ENV DATABASE_URL postgres://postgres:2bxGub9JnZ4NuuVk@10.88.0.3:5432/saleor
-RUN python3 manage.py migrate
 RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
 
 EXPOSE 8080
